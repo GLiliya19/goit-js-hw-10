@@ -1,0 +1,39 @@
+.is-hidden {
+    display: none;
+}
+
+.cat-info {
+    margin-top: 15px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 300px;
+}
+
+.js-img {
+    border-radius: 20px;
+}
+
+.js-name {
+    color: brown;
+}
+
+.js-descrription {
+    font-size: 18;
+    text-align: center;
+}
+
+.js-temperament {
+    font-size: 18;
+    text-align: center;
+}
+
+.js-card {
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
