@@ -2,6 +2,7 @@ import axios from 'axios';
 axios.defaults.headers.common['x-api-key'] =
   'live_iUvQ0F7fP4Z1MIEbDozYycFphycJWw4A3sLQEbC0VQs1h36ZjRbncl5TsRi6b7I5';
 import { fetchBreeds, fetchCatByBreed } from './cat-api';
+import { Report } from 'notiflix/build/notiflix-report-aio';
 
 import SlimSelect from 'slim-select';
 
@@ -43,11 +44,18 @@ fetchBreeds()
 breedSelect.addEventListener('change', onChangeSelect);
 
 function onChangeSelect() {
+  const selectedValue = breedSelect.value;
+  if (selectedValue === 'choose') {
+    selectError.hidden = true;
+    catInfo.innerHTML = ''; // remove last cat
+    return;
+  }
+
   catInfo.classList.add('cat-card');
   selectError.hidden = true;
   infoLoader.hidden = false;
   breedSelect.hidden = true;
-  // console.log(select.value);
+
   fetchCatByBreed(breedSelect.value)
     .then(data => {
       // console.log(data[0]);
@@ -57,9 +65,6 @@ function onChangeSelect() {
       const temperament = data[0].breeds[0].temperament;
 
       catInfo.innerHTML = createCatCard(img, name, description, temperament);
-      infoLoader.hidden = true;
-      breedSelect.hidden = false;
-      catInfo.classList.remove('cat-card');
     })
     .catch(err => {
       Report.failure(
@@ -67,10 +72,12 @@ function onChangeSelect() {
         'Please try again later',
         'Okay'
       );
+      console.log(err);
+    })
+    .finally(() => {
       infoLoader.hidden = true;
       breedSelect.hidden = false;
-      console.log(err);
-      catInfo.classList.add('cat-card');
+      catInfo.classList.remove('cat-card');
     });
 }
 
